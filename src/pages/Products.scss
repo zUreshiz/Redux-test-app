@@ -1,0 +1,59 @@
+.navigation {
+  position: fixed;
+  width: 200px;
+  height: 100%;
+  background: #3c8dbc;
+
+  ul {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding-left: 0;
+
+    li {
+      position: relative;
+      width: 100%;
+      list-style: none;
+
+      a {
+        display: flex;
+        width: 100%;
+        text-decoration: none;
+        color: #fff;
+
+        .icon {
+          width: 60px;
+          height: 60px;
+          line-height: 60px;
+          text-align: center;
+        }
+
+        .menu-title {
+          padding-left: 10px;
+          padding-top: 4px;
+          height: 60px;
+          line-height: 60px;
+        }
+      }
+    }
+  }
+  li:hover {
+    background: #367fa9;
+  }
+}
+
+.main-content {
+  display: inline-block;
+  margin-left: 200px;
+  width: calc(100% - 200px);
+  padding: 10px 25px;
+
+  .row {
+    margin-bottom: 15px;
+  }
+
+  .title {
+    border-bottom: 5px solid #367fa9;
+  }
+}

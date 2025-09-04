@@ -1,0 +1,101 @@
+import React, { useEffect, useState } from "react";
+import { FaBriefcase, FaHome } from "react-icons/fa";
+import "./Products.scss";
+import { Button, Col, Form, Row, Table } from "react-bootstrap";
+import axios from "axios";
+import { connect } from "react-redux";
+import { fetchProducts } from "../actions/productActions";
+import ProductList from "../components/ProductList";
+
+function Products(props) {
+  //   const [products, setProducts] = useState([]);
+  //   const apiUrl = "http://localhost:3000/products";
+
+  //   useEffect(() => {
+  //     const fetchProducts = async () => {
+  //       try {
+  //         const res = await axios.get(apiUrl);
+  //         const products = res && res.data ? res.data : [];
+  //         setProducts(products);
+  //       } catch (error) {
+  //         console.log(error.message);
+  //       }
+  //     };
+  //     fetchProducts();
+  //   }, []);
+
+  useEffect(() => {
+    props.fetchProducts();
+  }, [props]);
+
+  return (
+    <div>
+      <div className="navigation">
+        <ul>
+          <li>
+            <a href="#home">
+              <span className="icon">
+                <FaHome style={{ fontSize: "22px" }} />
+              </span>
+              <span className="menu-title">Admin</span>
+            </a>
+          </li>
+          <li>
+            <a href="#manage-product">
+              <span className="icon">
+                <FaBriefcase style={{ fontSize: "22px" }} />
+              </span>
+              <span className="menu-title">Product</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div className="main-content">
+        <Row>
+          <h1 className="title">Product Management</h1>
+        </Row>
+        <Row>
+          <Col className="d-flex flex-row-reverse">
+            <Button variant="info">Add New Product</Button>
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <Button variant="primary">All</Button> <Button variant="success">New</Button>{" "}
+            <Button variant="primary">Active</Button>{" "}
+            <Button variant="secondary">InActive</Button>{" "}
+          </Col>
+          <Col>
+            <Form className="d-flex">
+              <Form.Control
+                type="search"
+                placeholder="Search"
+                className="me-2"
+                aria-label="Search"
+              />
+              <Button variant="outline-success">Search</Button>
+            </Form>
+          </Col>
+        </Row>
+        <Row>
+          <ProductList loading={props.loading} products={props.products} />
+        </Row>
+      </div>
+    </div>
+  );
+}
+
+const mapStateToProps = (state) => {
+  return {
+    loading: state.productReducer.loading,
+    products: state.productReducer.products,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    fetchProducts: () => dispatch(fetchProducts()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Products);

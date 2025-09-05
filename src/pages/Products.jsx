@@ -27,7 +27,7 @@ function Products(props) {
 
   useEffect(() => {
     props.fetchProducts();
-  }, [props]);
+  }, []);
 
   return (
     <div>

@@ -8,6 +8,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Products from "./pages/Products.jsx";
 import "bootstrap/dist/css/bootstrap.min.css";
 import AddProduct from "./pages/AddProduct.jsx";
+import UpdateProduct from "./pages/UpdateProduct.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -17,6 +18,7 @@ createRoot(document.getElementById("root")).render(
           <Route path="/" element={<App />} />
           <Route path="/manage-product" element={<Products />} />
           <Route path="/create-product" element={<AddProduct />} />
+          <Route path="/update-product/:productId" element={<UpdateProduct />} />
         </Routes>
       </BrowserRouter>
     </Provider>

@@ -1,5 +1,7 @@
 import React from "react";
-import { Table } from "react-bootstrap";
+import { Button, Table } from "react-bootstrap";
+import { FaEdit } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 function ProductList(props) {
   if (props.loading === true) {
@@ -28,7 +30,14 @@ function ProductList(props) {
               <td>{product.content}</td>
               <td>{product.categoryName}</td>
               <td>{product.status}</td>
-              <td></td>
+              <td>
+                <Link to={`/update-product/${product.id}`}>
+                  <Button variant="primary">
+                    <FaEdit />
+                    <span>Edit</span>
+                  </Button>
+                </Link>
+              </td>
             </tr>
           );
         })}

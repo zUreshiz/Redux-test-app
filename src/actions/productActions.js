@@ -14,6 +14,7 @@ import {
   UPDATE_PRODUCT_FAILURE,
   UPDATE_PRODUCT_SUCCESS,
 } from "./products/productTypes";
+import { renderSync } from "sass";
 
 const fetchProductsRequest = () => {
   return {
@@ -104,7 +105,7 @@ const deleteProductFailure = () => {
 
 export const createProduct = (product) => {
   return async (dispatch) => {
-    dispatch(createProductsRequest);
+    dispatch(createProductsRequest());
     const apiUrl = "http://localhost:3000/products";
 
     try {
@@ -122,7 +123,7 @@ export const createProduct = (product) => {
 
 export const fetchProducts = (status) => {
   return async (dispatch) => {
-    dispatch(fetchProductsRequest);
+    dispatch(fetchProductsRequest());
 
     const Url = `http://localhost:3000/products`;
     const apiUrl = status === undefined ? Url : Url + `?status=${status}`;
@@ -140,7 +141,7 @@ export const fetchProducts = (status) => {
 
 export const fetchProduct = (id) => {
   return async (dispatch) => {
-    dispatch(fetchProductRequest);
+    dispatch(fetchProductRequest());
 
     const apiUrl = `http://localhost:3000/products/${id}`;
 
@@ -188,6 +189,24 @@ export const deleteProduct = (id) => {
       }
     } catch (error) {
       dispatch(deleteProductFailure(error?.message));
+    }
+  };
+};
+
+export const fetchProductsBySearchText = (searchText) => {
+  return async (dispatch) => {
+    dispatch(fetchProductsRequest());
+
+    const apiUrl = `http://localhost:3000/products?q=${encodeURIComponent(searchText)}`;
+
+    try {
+      const res = await axios.get(apiUrl);
+      console.log("searchText:", searchText);
+      const products = res && res.data ? res.data : [];
+      dispatch(fetchProductsSuccess(products));
+    } catch (error) {
+      console.log(error.message);
+      dispatch(fetchProductsFailure(error));
     }
   };
 };

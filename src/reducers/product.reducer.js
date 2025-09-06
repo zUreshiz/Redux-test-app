@@ -10,6 +10,8 @@ import {
   FETCH_PRODUCT_FAILURE,
   UPDATE_PRODUCT_SUCCESS,
   UPDATE_PRODUCT_FAILURE,
+  DELETE_PRODUCT_SUCCESS,
+  DELETE_PRODUCT_FAILURE,
 } from "../actions/products/productTypes";
 const initState = {
   loading: false,
@@ -85,6 +87,10 @@ const productReducer = (state = initState, action) => {
         updateSuccess: false,
         updateErrorMessage: action.payload,
       };
+    case DELETE_PRODUCT_SUCCESS:
+      return state;
+    case DELETE_PRODUCT_FAILURE:
+      return state;
     default:
       return state;
   }

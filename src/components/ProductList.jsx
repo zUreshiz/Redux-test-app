@@ -1,12 +1,17 @@
 import React from "react";
 import { Button, Table } from "react-bootstrap";
-import { FaEdit } from "react-icons/fa";
+import { FaEdit, FaTrash } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 function ProductList(props) {
   if (props.loading === true) {
     return <div>Loanding....</div>;
   }
+  const handleDeleteProduct = (product) => {
+    if (window.confirm("Are you want to delete product ?")) {
+      props.deleteProduct(product.id);
+    }
+  };
   return (
     <Table striped bordered hover>
       <thead>
@@ -36,7 +41,11 @@ function ProductList(props) {
                     <FaEdit />
                     <span>Edit</span>
                   </Button>
-                </Link>
+                </Link>{" "}
+                <Button variant="danger" onClick={() => handleDeleteProduct(product)}>
+                  <FaTrash />
+                  <span>Delete</span>
+                </Button>
               </td>
             </tr>
           );

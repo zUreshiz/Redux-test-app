@@ -3,6 +3,8 @@ import {
   CREATE_PRODUCTS_FAILURE,
   CREATE_PRODUCTS_REQUEST,
   CREATE_PRODUCTS_SUCCESS,
+  DELETE_PRODUCT_FAILURE,
+  DELETE_PRODUCT_SUCCESS,
   FETCH_PRODUCT_FAILURE,
   FETCH_PRODUCT_REQUEST,
   FETCH_PRODUCT_SUCCESS,
@@ -87,6 +89,19 @@ const updateProductFailure = (error) => {
   };
 };
 
+const deleteProductSuccess = (product) => {
+  return {
+    type: DELETE_PRODUCT_SUCCESS,
+    payload: product,
+  };
+};
+
+const deleteProductFailure = () => {
+  return {
+    type: DELETE_PRODUCT_FAILURE,
+  };
+};
+
 export const createProduct = (product) => {
   return async (dispatch) => {
     dispatch(createProductsRequest);
@@ -105,11 +120,12 @@ export const createProduct = (product) => {
   };
 };
 
-export const fetchProducts = () => {
+export const fetchProducts = (status) => {
   return async (dispatch) => {
     dispatch(fetchProductsRequest);
 
-    const apiUrl = "http://localhost:3000/products";
+    const Url = `http://localhost:3000/products`;
+    const apiUrl = status === undefined ? Url : Url + `?status=${status}`;
 
     try {
       const res = await axios.get(apiUrl);
@@ -152,6 +168,26 @@ export const updateProduct = (product) => {
       }
     } catch (error) {
       dispatch(updateProductFailure(error?.message));
+    }
+  };
+};
+
+export const deleteProduct = (id) => {
+  return async (dispatch) => {
+    const apiUrl = `http://localhost:3000/products/${id}`;
+
+    try {
+      const res = await axios.delete(apiUrl);
+      if (res && res?.status === 200) {
+        dispatch(deleteProductSuccess(res?.data));
+        setTimeout(() => {
+          dispatch(fetchProducts());
+        }, 500);
+      } else {
+        dispatch(deleteProductFailure("Delete Failed"));
+      }
+    } catch (error) {
+      dispatch(deleteProductFailure(error?.message));
     }
   };
 };
